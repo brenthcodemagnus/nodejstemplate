@@ -1,11 +1,11 @@
 'use strict';
 
-var models  =   require( __dirname + '/../models');
-var Q       =   require('q');
+const models  =   require( __dirname + '/../models');
+const Q       =   require('q');
 
 // The order of migration is important
 // for the foreign keys to work
-var Models = [
+const Models = [
     "User",
     "Task",
     "Profile"
@@ -13,29 +13,23 @@ var Models = [
 
 module.exports = {
 
-    up: function (queryInterface, Sequelize) {
+    up: (queryInterface, Sequelize) => {
         return queryInterface.createTable(Model.tableName, Model.attributes);
         // create the tables for each model
         // in the order declared above
-        return Models.reduce(function(totalPromise, modelName){
-            
-            var Model = models[modelName];
-
-            return totalPromise.then(function(){
-                return queryInterface.createTable(Model.tableName, Model.attributes);
+        return Models.reduce((totalPromise, modelName) => {
+            return totalPromise.then(() => {
+                return queryInterface.createTable(models[modelName].tableName, models[modelName].attributes);
             })
         }, Q());
     },
 
-    down: function (queryInterface, Sequelize) {
+    down: (queryInterface, Sequelize) => {
         // drop the tables for each model
         // in reverse order as declared above
-        return Models.reverse().reduce(function(totalPromise, modelName){
-            
-            var Model = models[modelName];
-
-            return totalPromise.then(function(){
-                return queryInterface.dropTable(Model.tableName);
+        return Models.reverse().reduce((totalPromise, modelName) => {
+            return totalPromise.then(() => {
+                return queryInterface.dropTable(models[modelName].tableName);
             })
         }, Q());
     }
