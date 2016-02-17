@@ -6,14 +6,12 @@ var Q       =   require('q');
 // for the foreign keys to work
 var Models = [
     "User",
-    "Task",
-    "Profile"
+    "Task"
 ];
 
 module.exports = {
 
     up: function (queryInterface, Sequelize) {
-        return queryInterface.createTable(Model.tableName, Model.attributes);
         // create the tables for each model
         // in the order declared above
         return Models.reduce(function(totalPromise, modelName){
